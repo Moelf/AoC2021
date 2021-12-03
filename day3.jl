@@ -3,12 +3,12 @@ rows = map(eachline("./input3")) do line
 end
 rowidxs = eachindex(rows[1])
 mode(rows, j, op = >=) = op(sum(r->r[j], rows), length(rows)÷2)
+f(x) = evalpoly(2, reverse(x))
 
 ### part 1
 γ = [mode(rows, j) for j in rowidxs]
 ϵ = .~(γ) # bit flips
-f(x) = parse(Int, replace(bitstring(x), " "=>""); base=2)
-println("p1: ",  prod(f∘BitVector, (γ, ϵ)))
+println("p1: ",  prod(f, (γ, ϵ)))
 
 ### part 2
 part2(rows, j, op) = filter(r -> r[j]==mode(rows, j, op), rows)
