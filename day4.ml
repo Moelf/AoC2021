@@ -90,8 +90,6 @@ let calc_win_score board checks num =
 let _ = print_string "part 1: "; print_int (calc_win_score (List.nth boards win_board) win_board_checks win_num); print_endline ""
 
 
-
-
 let (_, last_score) =
 List.fold_left (fun (boards_and_checks, last_score) num ->
   let new_bc = List.map (fun (board, check) ->
