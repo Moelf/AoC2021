@@ -53,6 +53,3 @@ let _ = List.iter (fun ((x0, y0, x1, y1) as line) ->
 ) lines
 
 let count = Array.fold_left (fun count row -> count + Array.fold_left (fun c x -> c + if x > 1 then 1 else 0) 0 row) 0 grid
-
-
-
