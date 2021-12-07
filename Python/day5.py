@@ -64,7 +64,7 @@ def count_overlap(map : np.ndarray, num_overlap : int) -> int:
     '''
     return np.sum(map >= num_overlap)
 
-fname = "input5"
+fname = "../input5"
 observation = parse_input(fname)
 empty_map = create_map_from_input(observation)
 filled_map = map_world(empty_map.copy(), observation)

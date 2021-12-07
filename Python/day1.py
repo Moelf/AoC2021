@@ -4,7 +4,7 @@ def count_increment(sonar_meas : np.ndarray) -> float:
     depth_diff = np.diff(sonar_meas)
     return np.sum(depth_diff > 0)
 
-input_depth = np.loadtxt("input1")
+input_depth = np.loadtxt("../input1")
 print(f"Ans: {count_increment(input_depth)}")
 
 filter_size = 3

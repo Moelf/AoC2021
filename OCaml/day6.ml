@@ -15,7 +15,7 @@ let rec grow_days count days =
 
 
 
-let input_path = "./input6"
+let input_path = "../input6"
 let days = 256
 let fish = List.map int_of_string (String.split_on_char ',' (input_line (open_in input_path)))
 let count = List.fold_left (fun c f -> list_set c f (1 + List.nth c f)) (List.init 9 (fun _ -> 0)) fish

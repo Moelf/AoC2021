@@ -3,7 +3,7 @@
  *)
 
 (* part 1 *)
-let input = open_in "./input1"
+let input = open_in "../input1"
 let _ = print_endline "part 1:"
 (* calculates num increments as well as first depth
  * calls f num_incr first_depth
@@ -24,7 +24,7 @@ let _ = k_num_incr input (fun num_incr _ -> (print_int num_incr; print_endline "
 
 (* part 2 *)
 let _ = print_endline "part 2:"
-let input = open_in "./input1"
+let input = open_in "../input1"
 (* same idea, now storing 3 future depths instead of just 1 *)
 let rec k_num_incr3 ic f =
   match input_line ic with
@@ -45,7 +45,7 @@ let _ = k_num_incr3 input (fun num_incr _ _ _ -> (print_int num_incr; print_endl
 
 (* golfy solution *)
 (* part 1 only *)
-let input = open_in "./input1"
+let input = open_in "../input1"
 let _ = print_endline "part 1:"
 (* reads entire file into list *)
 let rec get_depths ic =

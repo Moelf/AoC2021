@@ -1,6 +1,6 @@
 import numpy as np
 
-f_name = "input2"
+f_name = "../input2"
 lines = None
 with open(f_name, 'r') as f:
     lines = f.readlines()

@@ -2,7 +2,7 @@ using LinearAlgebra
 CI = CartesianIndex
 _sign(x1,x2) = x1>=x2 ? -1 : 1
 
-lines = split.(readlines("./input5"), r",| -> ")
+lines = split.(readlines("../input5"), r",| -> ")
 coords = map(lines) do line
     c = parse.(Int, line)
     step = CI(_sign(c[1], c[3]), _sign(c[2], c[4]))

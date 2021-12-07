@@ -2,7 +2,7 @@
 
 import numpy as np
 
-fname = "input3"
+fname = "../input3"
 lines = None
 with open(fname, 'r') as f:
     lines = f.readlines()

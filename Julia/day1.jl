@@ -1,4 +1,4 @@
-const ints = parse.(Int, readlines("./input1"))
+const ints = parse.(Int, readlines("../input1"))
 
 p1 = sum(>(0), diff(ints))
 
