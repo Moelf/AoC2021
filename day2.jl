@@ -4,11 +4,11 @@ function part1_2(arr)
     x = z = aim = 0
     for l in arr
         i = parse(Int, last(l))
-        if startswith(l, 'f')
+        if l[1] == 'f'
             x += i
             z += i*aim
         else
-            aim += ifelse(startswith(l, 'd'), i, -i)
+            aim += ifelse(l[1] == 'd', i, -i)
         end
     end
     x .* (aim, z)
