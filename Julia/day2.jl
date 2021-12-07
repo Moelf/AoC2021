@@ -1,4 +1,4 @@
-ins = readlines("./input2")
+ins = readlines("../input2")
 
 function part1_2(arr)
     x = z = aim = 0

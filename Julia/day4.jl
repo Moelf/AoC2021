@@ -1,4 +1,4 @@
-inputs = split(strip(read("./input4", String), '\n'), "\n\n")
+inputs = split(strip(read("../input4", String), '\n'), "\n\n")
 draws = parse.(Int, split(inputs[1], ","))
 boards = map(inputs[2:end]) do board
     parse.(Int, mapreduce(split, hcat, split(board, "\n")))

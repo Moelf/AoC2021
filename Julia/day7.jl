@@ -1,4 +1,4 @@
-const ints = parse.(Int, split(readline("./input7"), ',')) |> sort
+const ints = parse.(Int, split(readline("../input7"), ',')) |> sort
 println("p1: ", sum(abs, ints .- ints[end÷2]) |> Int)
 
 cost(x) = sum(1:abs(x))

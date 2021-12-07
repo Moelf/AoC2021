@@ -1,4 +1,4 @@
-rows = map(eachline("./input3")) do line
+rows = map(eachline("../input3")) do line
     parse.(Bool, collect(line))
 end
 rowidxs = eachindex(rows[1])

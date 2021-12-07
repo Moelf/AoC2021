@@ -43,7 +43,7 @@ def binning_method(initial_state : np.ndarray, num_days : int) -> int:
         fish_bins[6] += fish_bins[-1]
     return np.sum(fish_bins)
 
-fname = "input6"
+fname = "../input6"
 state = parse_input(fname)
 
 part1_days, part2_days = 80, 256

@@ -2,7 +2,7 @@ import numpy as np
 import tempfile
 
 # Read File input
-file_name = "input4"
+file_name = "../input4"
 lines = None
 with open(file_name, 'r') as f:
     lines = f.readlines()

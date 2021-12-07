@@ -1,4 +1,4 @@
-let input = open_in "./input5"
+let input = open_in "../input5"
 let rec k_get_lines ic f =
   match input_line ic with
         exception End_of_file -> f []

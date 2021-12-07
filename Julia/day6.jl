@@ -1,5 +1,5 @@
 using LinearAlgebra
-const ary = parse.(Int, split(readline("./input6"), ","))
+const ary = parse.(Int, split(readline("../input6"), ","))
 
 function f(ary, days)
     counts = zeros(Int, 9)

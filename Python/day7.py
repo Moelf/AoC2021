@@ -43,7 +43,7 @@ def part2(crab_loc : np.ndarray) -> float:
     d = np.array([np.ceil(min_d), np.floor(min_d)])
     return np.min(cost_p2(crab_loc, d))
 
-fname = "input7"
+fname = "../input7"
 crab_loc = np.loadtxt(fname, delimiter=",")
 min_loc = min_hori_dist(crab_loc, grad_p1)
 print(f"Part1 index: {min_loc}, cost: {cost_p1(crab_loc, 362)}")
