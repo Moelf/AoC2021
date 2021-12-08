@@ -7,6 +7,10 @@ end
 println("P1: ", p1)
 
 # part 2
+# one-liner
+println(sum(parse.(Int,["4725360918"[[sum([L...].∈r)÷2%15%11+1 for r in split(R)]] 
+for (L,R) in split.(readlines("../input8"),'|')])))
+
 # you can read this off from the standard segments pattern
 standard_patterns = ["abcefg", "cf", "acdeg", "acdfg", "bcdf", 
     "abdfg", "abdefg", "acf", "abcdefg", "abcdfg"]
@@ -39,4 +43,3 @@ p2 = sum(lines) do line
     res = disam(patterns, output)
     evalpoly(10, reverse(res))
 end
-println("P2: ", p2)
