@@ -3,7 +3,7 @@
 <summary>Julia</summary>
 
 ```julia
-const ints = parse.(Int, readlines("./input1"))
+const ints = parse.(Int, readlines("../input1"))
 
 p1 = sum(>(0), diff(ints))
 
@@ -27,7 +27,7 @@ println("Day1 p2: $p2")
  *)
 
 (* part 1 *)
-let input = open_in "./input1"
+let input = open_in "../input1"
 let _ = print_endline "part 1:"
 (* calculates num increments as well as first depth
  * calls f num_incr first_depth
@@ -48,7 +48,7 @@ let _ = k_num_incr input (fun num_incr _ -> (print_int num_incr; print_endline "
 
 (* part 2 *)
 let _ = print_endline "part 2:"
-let input = open_in "./input1"
+let input = open_in "../input1"
 (* same idea, now storing 3 future depths instead of just 1 *)
 let rec k_num_incr3 ic f =
   match input_line ic with
@@ -69,7 +69,7 @@ let _ = k_num_incr3 input (fun num_incr _ _ _ -> (print_int num_incr; print_endl
 
 (* golfy solution *)
 (* part 1 only *)
-let input = open_in "./input1"
+let input = open_in "../input1"
 let _ = print_endline "part 1:"
 (* reads entire file into list *)
 let rec get_depths ic =
@@ -99,7 +99,7 @@ def count_increment(sonar_meas : np.ndarray) -> float:
     depth_diff = np.diff(sonar_meas)
     return np.sum(depth_diff > 0)
 
-input_depth = np.loadtxt("input1")
+input_depth = np.loadtxt("../input1")
 print(f"Ans: {count_increment(input_depth)}")
 
 filter_size = 3
@@ -114,7 +114,7 @@ print(f"Part2 ans: {count_increment(rolling)}")
 <summary>Julia</summary>
 
 ```julia
-ins = readlines("./input2")
+ins = readlines("../input2")
 
 function part1_2(arr)
     x = z = aim = 0
@@ -138,7 +138,7 @@ println("Day1 p1, p2: $(part1_2(ins))")
 <summary>OCaml</summary>
 
 ```ocaml
-let input = open_in "./input2"
+let input = open_in "../input2"
 let rec k_get_lines ic f =
   match input_line ic with
         exception End_of_file -> f []
@@ -178,7 +178,7 @@ let _ = print_string "part 2: "; print_int (calc lines 0 0 0); print_endline ""
 ```python
 import numpy as np
 
-f_name = "input2"
+f_name = "../input2"
 lines = None
 with open(f_name, 'r') as f:
     lines = f.readlines()
@@ -233,7 +233,7 @@ print(f"prod: {np.prod(position_with_aim[:-1])}")
 <summary>Julia</summary>
 
 ```julia
-rows = map(eachline("./input3")) do line
+rows = map(eachline("../input3")) do line
     parse.(Bool, collect(line))
 end
 rowidxs = eachindex(rows[1])
@@ -263,7 +263,7 @@ end
 <summary>OCaml</summary>
 
 ```ocaml
-let input = open_in "./input3"
+let input = open_in "../input3"
 let rec k_get_lines ic f =
   match input_line ic with
         exception End_of_file -> f []
@@ -324,7 +324,7 @@ let _ = print_string "part 2: "; print_int (o2 * co2); print_endline ""
 
 import numpy as np
 
-fname = "input3"
+fname = "../input3"
 lines = None
 with open(fname, 'r') as f:
     lines = f.readlines()
@@ -388,7 +388,7 @@ print(f"prod: {matrix_bit_to_num(oxygen_string) * matrix_bit_to_num(scrubber_str
 <summary>Julia</summary>
 
 ```julia
-inputs = split(strip(read("./input4", String), '\n'), "\n\n")
+inputs = split(strip(read("../input4", String), '\n'), "\n\n")
 draws = parse.(Int, split(inputs[1], ","))
 boards = map(inputs[2:end]) do board
     parse.(Int, mapreduce(split, hcat, split(board, "\n")))
@@ -415,7 +415,7 @@ println(res[[begin, end]])
 <summary>OCaml</summary>
 
 ```ocaml
-let input = open_in "./input4"
+let input = open_in "../input4"
 let rec k_get_lines ic f =
   match input_line ic with
         exception End_of_file -> f []
@@ -534,7 +534,7 @@ import numpy as np
 import tempfile
 
 # Read File input
-file_name = "input4"
+file_name = "../input4"
 lines = None
 with open(file_name, 'r') as f:
     lines = f.readlines()
@@ -605,7 +605,7 @@ using LinearAlgebra
 CI = CartesianIndex
 _sign(x1,x2) = x1>=x2 ? -1 : 1
 
-lines = split.(readlines("./input5"), r",| -> ")
+lines = split.(readlines("../input5"), r",| -> ")
 coords = map(lines) do line
     c = parse.(Int, line)
     step = CI(_sign(c[1], c[3]), _sign(c[2], c[4]))
@@ -630,7 +630,7 @@ println("P2: ", sum(>=(2), M))
 <summary>OCaml</summary>
 
 ```ocaml
-let input = open_in "./input5"
+let input = open_in "../input5"
 let rec k_get_lines ic f =
   match input_line ic with
         exception End_of_file -> f []
@@ -759,7 +759,7 @@ def count_overlap(map : np.ndarray, num_overlap : int) -> int:
     '''
     return np.sum(map >= num_overlap)
 
-fname = "input5"
+fname = "../input5"
 observation = parse_input(fname)
 empty_map = create_map_from_input(observation)
 filled_map = map_world(empty_map.copy(), observation)
@@ -778,7 +778,7 @@ print(f"Part2: {count_overlap(part2_filled_map, 2)}")
 
 ```julia
 using LinearAlgebra
-const ary = parse.(Int, split(readline("./input6"), ","))
+const ary = parse.(Int, split(readline("../input6"), ","))
 
 function f(ary, days)
     counts = zeros(Int, 9)
@@ -816,7 +816,7 @@ let rec grow_days count days =
 
 
 
-let input_path = "./input6"
+let input_path = "../input6"
 let days = 256
 let fish = List.map int_of_string (String.split_on_char ',' (input_line (open_in input_path)))
 let count = List.fold_left (fun c f -> list_set c f (1 + List.nth c f)) (List.init 9 (fun _ -> 0)) fish
@@ -875,7 +875,7 @@ def binning_method(initial_state : np.ndarray, num_days : int) -> int:
         fish_bins[6] += fish_bins[-1]
     return np.sum(fish_bins)
 
-fname = "input6"
+fname = "../input6"
 state = parse_input(fname)
 
 part1_days, part2_days = 80, 256
@@ -893,7 +893,7 @@ print(f"{part2_days} days of fish: {part2_ans}")
 <summary>Julia</summary>
 
 ```julia
-const ints = parse.(Int, split(readline("./input7"), ',')) |> sort
+const ints = parse.(Int, split(readline("../input7"), ',')) |> sort
 println("p1: ", sum(abs, ints .- ints[end÷2]) |> Int)
 
 cost(x) = sum(1:abs(x))
@@ -978,7 +978,7 @@ def part2(crab_loc : np.ndarray) -> float:
     d = np.array([np.ceil(min_d), np.floor(min_d)])
     return np.min(cost_p2(crab_loc, d))
 
-fname = "input7"
+fname = "../input7"
 crab_loc = np.loadtxt(fname, delimiter=",")
 min_loc = min_hori_dist(crab_loc, grad_p1)
 print(f"Part1 index: {min_loc}, cost: {cost_p1(crab_loc, 362)}")
