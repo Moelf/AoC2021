@@ -21,7 +21,18 @@ end
 
 # part 1 + 2
 let p1=0; p2=Int[]
-for coor in CartesianIndices((2:101, 2:101))
+@time for coor in CartesianIndices((2:101, 2:101))
+    ns = neighbors(coor)
+    if all(>(M[coor]), M[ns]) 
+        p1 += M[coor]+1
+        push!(p2, walk(M, coor))
+    end
+end
+println(p1)
+println(*(sort(p2)[end-2:end]...) |> sum)
+end
+let p1=0; p2=Int[]
+@time for coor in CartesianIndices((2:101, 2:101))
     ns = neighbors(coor)
     if all(>(M[coor]), M[ns]) 
         p1 += M[coor]+1
