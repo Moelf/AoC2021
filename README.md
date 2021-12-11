@@ -1279,14 +1279,54 @@ function checker(line, part2)
     res1
 end
 
-p2 = Int[]
-println("P1: ", sum(l -> checker(l, p2), eachline("../input10")))
+const p2 = Int[]
+const ls = readlines("../input10")
+L(l) = checker(l, p2)
+empty!(p2)
+println("P1: ", sum(L, ls))
 println("P2: ", sort(p2)[end ÷ 2 + 1])
+@time sum(L, ls)
+@time sort(p2)[end ÷ 2 + 1]
 
 ```
 </details>
 
 ## Day 11
+<details>
+<summary>Julia</summary>
+
+```julia
+CI = CartesianIndex
+const M = mapreduce(l->parse.(Int, collect(l))', vcat, eachline("../input11"))
+
+const adj = setdiff(CI(-1,-1):CI(1,1), (CI(0,0), ))
+flash!(M, CM, c) = [M[c+a]+=1 for a in adj if c+a ∈ CM]
+
+function step!(M)
+    CM = CartesianIndices(M)
+    M .+= 1
+    flashed = 0
+    while true
+        for c in CM
+            if 20 > M[c] > 9
+                M[c] = 30
+                flashed += 1
+                flash!(M, CM, c)
+            end
+        end
+        any(x-> 20>x>9, M) || break
+    end
+    M[M .> 9] .= 0
+    sum(iszero, M)
+end
+
+M2 = copy(M)
+println("p1: ", sum(x->step!(M), 1:100))
+println("p2: ", findfirst(x->step!(M2)==100, 1:1000))
+
+```
+</details>
+
 ## Day 12
 ## Day 13
 ## Day 14

@@ -23,6 +23,11 @@ function checker(line, part2)
     res1
 end
 
-p2 = Int[]
-println("P1: ", sum(l -> checker(l, p2), eachline("../input10")))
+const p2 = Int[]
+const ls = readlines("../input10")
+L(l) = checker(l, p2)
+empty!(p2)
+println("P1: ", sum(L, ls))
 println("P2: ", sort(p2)[end ÷ 2 + 1])
+@time sum(L, ls)
+@time sort(p2)[end ÷ 2 + 1]
