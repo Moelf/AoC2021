@@ -7,9 +7,9 @@ instructions = split(raw_i, "\n")
 let M = sparse(first.(points), last.(points), true)
     for (i, line) in enumerate(instructions)
         M = if contains(line, "y=")
-            M[1:end÷2, :] .|| reverse(M[end÷2+2:end, :]; dims=1)
+            M[1:end÷2, :] .|| M[end:-1:end÷2+2, :]
         else
-            M[:, 1:end÷2] .|| reverse(M[:, end÷2+2:end]; dims=2)
+            M[:, 1:end÷2] .|| M[:, end:-1:end÷2+2]
         end
         i == 1 && println("P1: ", sum(!iszero, M))
     end
