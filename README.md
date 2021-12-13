@@ -1078,6 +1078,124 @@ end
 ```
 </details>
 
+<details>
+<summary>Python</summary>
+
+```python
+from typing import Dict, List
+import numpy as np
+
+num_segment = {
+    0 : 6,
+    1 : 2,
+    2 : 5,
+    3 : 5,
+    4 : 4,
+    5 : 5,
+    6 : 6,
+    7 : 3,
+    8 : 7,
+    9 : 6
+}
+
+def sort_str(in_str  : str) -> str:
+    return "".join(sorted(in_str))
+
+def gen_decode_map(in_str : str) -> Dict:
+    '''
+    '''
+    
+    entries = in_str.split(" ")
+    sorted_entry = sorted(entries, key=len)
+    
+    one = sort_str(sorted_entry[0])
+    four = sort_str(sorted_entry[2])
+    
+    ret_entry = dict()
+    ret_entry[one] = 1
+    ret_entry[four] = 4
+    ret_entry[sort_str(sorted_entry[1])] = 7
+    ret_entry[sort_str(sorted_entry[-1])] = 8
+    
+    # Of length 6
+    six_char_cand = [sort_str(sorted_entry[-2]),
+                     sort_str(sorted_entry[-3]), sort_str(sorted_entry[-4])]
+   
+    mask = np.array([0, 0, 0])
+    nine_str = None
+    for idx, i in enumerate(six_char_cand):
+        if (four[0] in i) and (four[1] in i) and (four[2] in i) and (four[3] in i):
+            ret_entry[i] = 9
+            nine_str = i
+            mask[idx] = 1
+            continue
+            
+        if (one[0] in i) and (one[1] in i) and i not in ret_entry:
+            ret_entry[i] = 0
+            mask[idx] = 1
+            continue
+    
+    ret_entry[six_char_cand[np.argmin(mask)]] = 6
+
+    five_char_cand = [sort_str(sorted_entry[3]),
+                     sort_str(sorted_entry[4]), sort_str(sorted_entry[5])]
+    
+    for idx, c in enumerate(five_char_cand):
+        if (one[0] in c) and (one[1] in c):
+            ret_entry[c] = 3
+            continue
+        
+        five_in_nine = True
+        for s in c:
+            five_in_nine = five_in_nine and (s in nine_str)
+        if five_in_nine:
+            ret_entry[c] = 5
+            continue
+
+        ret_entry[c] = 2
+
+    return ret_entry
+
+def decode_str(in_str : str, decode_map : Dict[str, int]) -> int:
+    '''
+        are you happy with one liners :)
+    '''
+    nums = [int(decode_map[sort_str(s)]) * (10 ** (3 - i)) for i, s in enumerate(in_str.split(" "))]
+    return np.sum(nums)
+
+def count_unique_nums(input: List[str]) -> int:
+    '''
+    '''
+    unique_set = {2, 4, 3, 7}
+    ret_num = 0
+    for line in input:
+        out_str = line.split(" ")
+        k = [len(digit) in unique_set for digit in out_str]
+        ret_num += np.sum(np.array(k))
+    return ret_num
+    
+def main(fname : str = "../input8"):
+
+    with open(fname, 'r') as f:
+        line = f.readlines()
+
+    part1_lines = [l.strip().split(" | ")[1] for l in line]
+
+    print(f"P1: {count_unique_nums(part1_lines)}")
+
+    part2_lines = [l.strip().split(" | ")[0] for l in line]
+    ret_val = 0
+    for idx, p2 in enumerate(part2_lines):
+        decode_map = gen_decode_map(p2)
+        num = decode_str(part1_lines[idx], decode_map)
+        ret_val += num
+    print(f"P2: {ret_val}")
+        
+if __name__ == "__main__":
+    main()
+```
+</details>
+
 ## Day 9
 <details>
 <summary>Julia</summary>
@@ -1106,24 +1224,158 @@ end
 
 # part 1 + 2
 let p1=0; p2=Int[]
-for coor in CartesianIndices((2:101, 2:101))
-    ns = neighbors(coor)
-    if all(>(M[coor]), M[ns]) 
-        p1 += M[coor]+1
-        push!(p2, walk(M, coor))
+    for coor in CartesianIndices((2:101, 2:101))
+        ns = neighbors(coor)
+        if all(>(M[coor]), M[ns]) 
+            p1 += M[coor]+1
+            push!(p2, walk(M, coor))
+        end
     end
-end
-println(p1)
-println(*(sort(p2)[end-2:end]...) |> sum)
+    println(p1)
+    println(*(sort(p2)[end-2:end]...) |> sum)
 end
 
 ```
 </details>
 
 ## Day 10
+<details>
+<summary>Julia</summary>
+
+```julia
+function checker(line, part2)
+    res1 = res2 = 0
+    match = Dict('(' => ')', '[' => ']', '{' => '}', '<' => '>')
+    smap =  Dict('(' => 1,   '[' => 2,   '{' => 3,   '<' => 4,
+                 ')' => 3,   ']' => 57,  '}' => 1197,'>' => 25137)
+    stack = Char[]
+    for t in line
+        if t ∈ "([{<"
+            push!(stack, t)
+        elseif t == match[last(stack)]
+            pop!(stack)
+        else
+            res1 = smap[t]
+            @goto corrupted
+        end
+    end
+    foreach(reverse(stack)) do r
+        res2 *= 5
+        res2 += smap[r]
+    end
+    push!(part2, res2)
+    @label corrupted
+    res1
+end
+
+const p2 = Int[]
+const ls = readlines("../input10")
+L(l) = checker(l, p2)
+empty!(p2)
+println("P1: ", sum(L, ls))
+println("P2: ", sort(p2)[end ÷ 2 + 1])
+@time sum(L, ls)
+@time sort(p2)[end ÷ 2 + 1]
+
+```
+</details>
+
 ## Day 11
+<details>
+<summary>Julia</summary>
+
+```julia
+CI = CartesianIndex
+const M = mapreduce(l->parse.(Int, collect(l))', vcat, eachline("../input11"))
+const M2 = copy(M)
+
+const adj = setdiff(CI(-1,-1):CI(1,1), (CI(0,0), ))
+flash!(M, CM, c) = [M[c+a]+=1 for a in adj if c+a ∈ CM]
+
+function step!(M)
+    CM = CartesianIndices(M)
+    M .+= 1
+    @label again
+    for c in CM
+        (M[c] > 20 || M[c] < 10) && continue
+        M[c] = 30
+        flash!(M, CM, c)
+        @goto again
+    end
+    M[M .> 9] .= 0
+    sum(iszero, M)
+end
+
+println("p1: ", sum(x->step!(M), 1:100))
+println("p2: ", findfirst(x->step!(M2)==100, 1:1000))
+
+```
+</details>
+
 ## Day 12
+<details>
+<summary>Julia</summary>
+
+```julia
+const pairs = [=>(split(x, '-')...) for x in eachline("../input12")]
+
+function islegal(name, path, twice)
+    name == "start" && return false
+    if name ∉ path || all(isuppercase, name)
+        return true
+    elseif twice[]
+        twice[] = false
+        return true
+    end
+    return false
+end
+
+function explore(path=["start"]; res=[0], twice=[false])
+    here = last(path)
+    if here == "end" 
+        res[] += 1
+        return res[]
+    end
+    for p in pairs
+        t1 = copy(twice); t2 = copy(twice)
+        p[1] == here && islegal(p[2], path, t1) && explore([path; p[2]]; res, twice=t1)
+        p[2] == here && islegal(p[1], path, t2) && explore([path; p[1]]; res, twice=t2)
+    end
+    res[]
+end
+
+println("P1 :", explore())
+println("P2 :", explore(twice=[true]))
+
+```
+</details>
+
 ## Day 13
+<details>
+<summary>Julia</summary>
+
+```julia
+using SparseArrays
+
+raw_p, raw_i = strip.(split(read("../input13", String), "\n\n"))
+points = [parse.(Int, (y,x)) .+ 1 for (x,y) in split.(split(raw_p, "\n"), ",")]
+instructions = split(raw_i, "\n")
+
+let M = sparse(first.(points), last.(points), true)
+    for (i, line) in enumerate(instructions)
+        M = if contains(line, "y=")
+            M[1:end÷2, :] .|| M[end:-1:end÷2+2, :]
+        else
+            M[:, 1:end÷2] .|| M[:, end:-1:end÷2+2]
+        end
+        i == 1 && println("P1: ", sum(!iszero, M))
+    end
+    display(M)
+end
+
+```
+</details>
+
 ## Day 14
 ## Day 15
 ## Day 16
