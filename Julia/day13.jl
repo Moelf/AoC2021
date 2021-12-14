@@ -6,6 +6,7 @@ instructions = split(raw_i, "\n")
 
 let M = sparse(first.(points), last.(points), true)
     for (i, line) in enumerate(instructions)
+        @show size(M)
         M = if contains(line, "y=")
             M[1:end÷2, :] .|| M[end:-1:end÷2+2, :]
         else
