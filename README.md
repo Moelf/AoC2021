@@ -1798,10 +1798,157 @@ end
 </details>
 
 ## Day 18
+<details>
+<summary>Julia</summary>
+
+```julia
+function explode(s)
+    count = 0
+    target = 0:-1
+    for (i, c) in enumerate(s)
+        count += c == '['
+        count -= c == ']'
+        if count == 5
+            target = i:findnext(']', s, i)
+            break
+        end
+    end
+    if !isempty(target)
+        _s = s[target]
+        tar_l, tar_r = parse.(Int, x.match for x in eachmatch(r"\d+", _s))
+        s = replace(s, _s=>"   0"; count=1)
+        l = findnext(r"\d+", s, max(target.start-5, 1))
+        if !isnothing(l) && l.stop+1 != target.stop
+            l_res = parse(Int, s[l]) + tar_l
+            s = s[begin:l.start-1] * string(l_res) * s[l.stop+1:end]
+        end
+        r = findnext(r"\d+", s, target.stop+1)
+        if !isnothing(r)
+            r_res = parse(Int, s[r]) + tar_r
+            s = s[begin:r.start-1] * string(r_res) * s[r.stop+1:end]
+        end
+    end
+    return replace(s, " "=>"")
+end
+
+function spli(s)
+    idxs = findall(r"\d+", s)
+    iid = findfirst(x-> parse(Int, s[x]) >= 10, idxs)
+    isnothing(iid) && return s
+    num_str = s[idxs[iid]]
+    num = parse(Int, num_str)
+    l,r = fld(num, 2), cld(num, 2)
+    replace(s, num_str => "[$l,$r]"; count=1)
+end
+
+function ⊗(s1, s2)
+    _s = s = "[$s1,$s2]"
+    while true
+        s = explode(s)
+        if s != _s
+            _s = s
+            continue
+        end
+        s = spli(s)
+        if s != _s
+            _s = s
+            continue
+        end
+        break
+    end
+    return s
+end
+
+```
+</details>
+
 ## Day 19
 ## Day 20
+<details>
+<summary>Julia</summary>
+
+```julia
+using SparseArrays
+const CI = CartesianIndex
+const algo = parse.(Int, collect(replace(readlines("../input20")[1], '.'=>0, '#'=>1)));
+const raw_mat = Matrix{Int64}(mapreduce(l->permutedims(replace(collect(l), '.'=>0, '#'=>1)), vcat, readlines("../input20")[3:end]))
+
+function conv(M, ci)
+    window = ci-CI(1,1):ci+CI(1,1)
+    idx = evalpoly(2, vec(M[window]') |> reverse) + 1
+    algo[idx]
+end
+
+function main(N=2)
+    M1 = raw_mat
+    _s = size(M1, 1) + 2*N + 4
+    M2 = zeros(Int, _s, _s)
+    M2[3+N:end-N-2, 3+N:end-N-2] .= M1
+    for _ = 1:N
+        M1 = copy(M2)
+        for c in CartesianIndices((_s-2, _s-2)) .+ CI(1,1)
+            M2[c] = conv(M1, c)
+        end
+    end
+    count(>(0), M2[N+1:end-N, N+1:end-N])
+end
+
+println("P1: ", main())
+
+```
+</details>
+
 ## Day 21
+<details>
+<summary>Julia</summary>
+
+```julia
+using Base.Iterators: Stateful, take, cycle
+p1, p2 = parse.(Int, last.(eachline("../input21")))
+
+function game(p1,p2)
+    det_die = Stateful(cycle(1:100))
+    s1 = s2 = 0
+    while true
+        p1 = mod1(p1 + sum(take(det_die, 3)), 10)
+        s1 += p1
+        s1 >= 1000 && return det_die.taken * s2
+
+        p2 = mod1(p2 + sum(take(det_die, 3)), 10)
+        s2 += p2
+        s2 >= 1000 && return det_die.taken * s1
+    end
+end
+
+println("P1: ", game(p1,p2))
+
+```
+</details>
+
 ## Day 22
+<details>
+<summary>Julia</summary>
+
+```julia
+function sol(N=50)
+    M = falses(2N+1, 2N+1, 2N+1)
+    for l in eachline("../input22")
+        mat = eachmatch(r"(-?\d+)\.\.(-?\d+)", l)
+        coords = mapreduce(x->parse.(Int, x.captures), vcat, mat) .+ (N+1)
+        any(c -> (c<0 || c>2N), coords) && continue
+        x1,x2,y1,y2,z1,z2  = coords
+        region = CartesianIndices((x1:x2, y1:y2, z1:z2))
+        val = startswith(l, "on") ? 1 : 0
+        M[region] .= val
+    end
+    sum(M)
+end
+
+println("P1: ", sol())
+
+```
+</details>
+
 ## Day 23
 ## Day 24
 ## Day 25
